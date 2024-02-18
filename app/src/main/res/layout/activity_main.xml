@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center_vertical"
+    android:padding="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save Log" />
+
+    <Button
+        android:id="@+id/stop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Stop Log"/>
+
+    <Button
+        android:id="@+id/generate_log"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Generate dummy Log" />
+
+    <TextView
+        android:id="@+id/textmsg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Welcome"/>
+</LinearLayout>
