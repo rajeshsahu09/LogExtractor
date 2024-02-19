@@ -7,8 +7,6 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
 import android.content.Intent
-import android.content.pm.ServiceInfo
-import android.os.Build
 import android.os.Environment
 import android.os.Environment.DIRECTORY_DOCUMENTS
 import android.os.IBinder

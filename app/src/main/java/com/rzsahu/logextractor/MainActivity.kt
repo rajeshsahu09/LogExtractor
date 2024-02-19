@@ -1,6 +1,8 @@
 package com.rzsahu.logextractor
 
 import android.annotation.SuppressLint
+import android.app.ActivityManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -15,8 +17,16 @@ class MainActivity : ComponentActivity() {
 
     private var bound = false
     private lateinit var textMsg: TextView
-    private lateinit var pref: SharedPreferenceLogService
 
+    private fun isServiceRunning(context: Context, serviceClass: Class<*>): Boolean {
+        val activityManager = context.getSystemService(ACTIVITY_SERVICE) as ActivityManager
+        for (service in activityManager.getRunningServices(Int.MAX_VALUE)) {
+            if (serviceClass.name == service.service.className) {
+                return true
+            }
+        }
+        return false
+    }
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,13 +34,11 @@ class MainActivity : ComponentActivity() {
         setContentView(R.layout.activity_main)
         Log.i(TAG, "onCreate: ")
 
-        pref = SharedPreferenceLogService(this@MainActivity)
 
         findViewById<Button>(R.id.start).setOnClickListener {
             Log.i(TAG, "onClick: start")
-            if (!pref.isServiceRunning) {
-                pref.isServiceRunning =
-                        startService(Intent(this, LogExtractorService::class.java)) != null
+            if (!isServiceRunning(this, LogExtractorService::class.java)) {
+                startService(Intent(this, LogExtractorService::class.java))
                 textMsg.text = "Log service is started."
             } else {
                 textMsg.text = "Log service is already running."
@@ -39,8 +47,8 @@ class MainActivity : ComponentActivity() {
 
         findViewById<Button>(R.id.stop).setOnClickListener {
             Log.i(TAG, "onClick: stop")
-            if (pref.isServiceRunning) {
-                pref.isServiceRunning = !stopService(Intent(this, LogExtractorService::class.java))
+            if (isServiceRunning(this, LogExtractorService::class.java)) {
+                stopService(Intent(this, LogExtractorService::class.java))
                 textMsg.text = "Log service is stopped now."
             } else {
                 textMsg.text = "Log service not stated yet. Press save log!!"
@@ -50,7 +58,7 @@ class MainActivity : ComponentActivity() {
         findViewById<Button>(R.id.generate_log).setOnClickListener {
             Log.i(TAG, "onClick: generate random logs")
             var i = 0
-            for(i in 0..10) {
+            for (i in 0..10) {
                 Log.i(TAG, "onCreate: hello")
             }
         }
